@@ -28,19 +28,6 @@ function useUserSession(initialUser) {
   return initialUser;
 }
 
-export default function Header({ initialUser }) {
-  const user = useUserSession(initialUser);
-
-  const handleSignOut = (event) => {
-    event.preventDefault();
-    signOut();
-  };
-
-  const handleSignIn = (event) => {
-    event.preventDefault();
-    signInWithGoogle();
-  };
-
   return (
     <header>
       <Link href="/" className="logo">
