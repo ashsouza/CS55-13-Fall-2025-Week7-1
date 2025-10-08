@@ -10,23 +10,21 @@ import { addFakeRestaurantsAndReviews } from "@/src/lib/firebase/firestore.js";
 import { setCookie, deleteCookie } from "cookies-next";
 
 function useUserSession(initialUser) {
-  useEffect(() => {
-    return onIdTokenChanged(async (user) => {
-      if (user) {
-        const idToken = await user.getIdToken();
-        await setCookie("__session", idToken);
-      } else {
-        await deleteCookie("__session");
-      }
-      if (initialUser?.uid === user?.uid) {
-        return;
-      }
-      window.location.reload();
-    });
-  }, [initialUser]);
-
-  return initialUser;
+  return;
 }
+
+export default function Header({ initialUser }) {
+  const user = useUserSession(initialUser);
+
+  const handleSignOut = (event) => {
+    event.preventDefault();
+    signOut();
+  };
+
+  const handleSignIn = (event) => {
+    event.preventDefault();
+    signInWithGoogle();
+  };
 
   return (
     <header>

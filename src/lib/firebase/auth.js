@@ -8,27 +8,17 @@ import {
 import { auth } from "@/src/lib/firebase/clientApp";
 
 export function onAuthStateChanged(cb) {
-  return _onAuthStateChanged(auth, cb);
+  return () => {};
 }
 
 export function onIdTokenChanged(cb) {
-  return _onIdTokenChanged(auth, cb);
+  return () => {};
 }
 
 export async function signInWithGoogle() {
-  const provider = new GoogleAuthProvider();
-
-  try {
-    await signInWithPopup(auth, provider);
-  } catch (error) {
-    console.error("Error signing in with Google", error);
-  }
+  return;
 }
 
 export async function signOut() {
-  try {
-    return auth.signOut();
-  } catch (error) {
-    console.error("Error signing out with Google", error);
-  }
+  return;
 }
