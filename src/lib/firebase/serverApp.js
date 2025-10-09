@@ -12,19 +12,21 @@ import { getAuth } from "firebase/auth";
 export async function getAuthenticatedAppForUser() {
   const authIdToken = (await cookies()).get("__session")?.value;
 
-  // Firebase Server App is a new feature in the JS SDK that allows you to
-  // instantiate the SDK with credentials retrieved from the client & has
-  // other affordances for use in server environments.
+  // initialize a Firebase app instance that will run on the server
   const firebaseServerApp = initializeServerApp(
-    // https://github.com/firebase/firebase-js-sdk/issues/8863#issuecomment-2751401913
+    // create a base Firebase app configuration using the client SDK
     initializeApp(),
     {
+      // Pass the user's authentication ID token so the server app
+      // can act on behalf of the authenticated user
       authIdToken,
     }
   );
 
+  // get the Firebase Authentication instance associated with the initialized server app
   const auth = getAuth(firebaseServerApp);
+  // wait until Firebase has finished initializing and the authentication state is ready
   await auth.authStateReady();
-
+  // return an object containing the initialized Firebase app and the currently authenticated user
   return { firebaseServerApp, currentUser: auth.currentUser };
 }
